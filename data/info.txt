@@ -1,0 +1,5 @@
+Studies reffered to for GWAS risk variants
+
+Schizophrenia - Trubetskoy et al., 2022 Nature (Apr;604(7906):502-508. doi: 10.1038/s41586-022-04434-5. Epub 2022 Apr 8.)
+
+Bipolar Disorder - Mullins et al., Nat Genet 2021 Jun;53(6):817-829. doi: 10.1038/s41588-021-00857-4. Epub 2021 May 17.
