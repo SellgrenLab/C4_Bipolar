@@ -98,20 +98,16 @@ c4a<- network
 #load risk genes from Mullins et al., 2021 for bipolar disorder
 
 bp_risk <- openxlsx::read.xlsx("Bipolar_risk_genes_GWAS.xlsx")
+bd1_risk <- openxlsx::read.xlsx("BD1_only_temp.xlsx")
 
-# test bipolar enrichment in C4A networks
-
-ORA(refpath = c4a$Gene[c4a$`34.FDR` < .05 & c4a$`34.R` < 0], testpath = unique(na.omit(bp_risk$Gene)), testbackground = c4a$Gene, refbackground = c4a$Gene)
-#                 OR            Fisher p              -95%CI              +95%CI 
-# "1.15346961103507" "0.551379957385296" "0.612311169340538"  "2.01088221639667" 
-#            Overlap     
-#               "14"       
+# test bipolar disorder (type1) enrichment in C4A networks
+ORA(refpath = c4a$Gene[c4a$`34.FDR` < .05 & c4a$`34.R` < 0], testpath = unique(bd1_risk), testbackground = c4a$Gene, refbackground = c4a$Gene)
+ #                OR            Fisher p              -95%CI              +95%CI             Overlap      
+#"0.499006473137796" "0.015018261815649" "0.254014290453813" "0.888951593509675"                "12"   
     
- ORA(refpath = c4a$Gene[c4a$`34.FDR` < .05 & c4a$`34.R` > 0], testpath = unique(na.omit(bp_risk$Gene)), testbackground = c4a$Gene, refbackground = c4a$Gene)
- #                 OR             Fisher p               -95%CI               +95%CI 
- #  "1.7478076346258" "0.0300134873922067"   "1.01576960157675"   "2.85337918028667" 
- #            Overlap       
- #               "19"              
+ ORA(refpath = c4a$Gene[c4a$`34.FDR` < .05 & c4a$`34.R` > 0], testpath = unique(bd1_risk), testbackground = c4a$Gene, refbackground = c4a$Gene)
+ #                  OR               Fisher p                 -95%CI                 +95%CI                Overlap         
+ #  "1.97030306421926" "0.000264810463952911"     "1.36106113723605"     "2.78647234755508"                   "39"                      
 
 
 #load risk genes from Trubetskoy et al., 2022 for schizophrenia
@@ -147,7 +143,7 @@ ORA(refpath = c4a$Gene[c4a$`34.FDR` < .05 & c4a$`34.R` > 0], testpath = unique(p
 plot <- data.frame(row.names = c("Schizophrenia", "Bipolar Disorder"))
  #                p-val_positive   p-val_negative  log_positive  log_negative
 #Schizophrenia    0.0132355092663909 2.734434e-05 1.878259 4.563133
-#Bipolar Disorder 0.0300134873922067 5.513800e-01 1.522684 0.258549
+#Bipolar Disorder 0.000264810463952911 0.015018261815649 3.577065 1.82338
 
 #add pvalues from above to the data-frame and plot log10 values for each enrichment test
 #add threshold line for bonferroni correction = (0.05/4)
