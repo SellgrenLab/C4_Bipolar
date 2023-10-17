@@ -35,13 +35,21 @@ rownames(dat) <- c("C4A", "Diagnosis", "sex", "ethnicity", "ageDeath", "study")
 dat1 <- as.data.frame(t(dat))
 dat2 <- dplyr::filter(dat1, Diagnosis %in% c("Control", "Bipolar Disorder"))
 dat2$C4A <- as.numeric(dat2$C4A)
+#make age of death variable numeric
 dat2[, 2:6] <- as.factor(dat2[, 2:6])
 
 ## Check for confounding factors and correct for it using combat if needed
-model <- glm(Diagnosis ~ C4A + ageDeath + sex + ethnicity + study,
+model <- glm(Diagnosis ~  ageDeath + sex + ethnicity + study,
 data = dat2, family = binomial(link = 'logit'))
 summary(model)
+## Adjust for covariates using combat method
 
+modcombat <- model.matrix(~diagnosis, data = meta)
+mat <- ComBat(dat = datExpr.reg,
+batch = meta$ageDeath,
+mod = modcombat)
+
+#repeat above steps to get dat2
 
 ##### Plot C4A mRNA levels across groups ###
 ggbetweenstats(
